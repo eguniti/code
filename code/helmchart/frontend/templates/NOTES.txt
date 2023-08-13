@@ -1,0 +1,3 @@
+o verify that frontend has started, run:
+
+  kubectl --namespace={{ .Release.Namespace }} get pods -l "app={{ template "frontend.fullname" . }}"

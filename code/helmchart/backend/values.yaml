@@ -1,0 +1,100 @@
+# Default values for backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: "520131833157.dkr.ecr.ap-south-1.amazonaws.com/backend"
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+env:
+  DB: ""
+  DBUSER: ""
+  DBPASS: ""
+  DBHOST: ""
+  DBPORT: "5432"
+
+probes:
+  enabled: true
+  livenessProbe:
+    path: /api/status
+    port: 3000
+    initialDelaySeconds: 60
+    periodSeconds: 15
+
+  readinessProbe:
+    path: /api/status
+    port: 3000
+    initialDelaySeconds: 60
+    periodSeconds: 15
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+ingress:
+  enabled: true
+  ClassName: nginx
+  path: /
+  # Only used if API capabilities (networking.k8s.io/v1) allow it
+  pathType: Prefix
+  ingressClassName: nginx
+  # Used to create an Ingress record.
+  hosts:
+    - backend.devopsworld.ml
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
