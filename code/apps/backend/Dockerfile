@@ -8,7 +8,7 @@ WORKDIR /opt/backend
 RUN apt-get update && \
     apt-get install curl -y
 
-# Installation of Node 12
+# Installation of Node
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt -y install nodejs
 
